@@ -1,0 +1,151 @@
+class Ball
+{
+	private double radius;
+	
+	Ball(){}
+	Ball(double radius)
+	{
+		this.radius=radius;
+	}
+	public double getBallRadius()
+	{
+		return radius;
+	}
+	public void setBallRadius(double radius)
+	{
+		this.radius= radius;
+	}
+}
+class BB extends Ball
+{
+	String game="Basket Ball";
+}
+class Tennis extends Ball
+{
+	String game="Tennis";
+}
+class Bag
+{
+	Ball b;
+	
+	Bag(){}
+	
+	public void addBall(Ball b1,Ball b2)
+	{
+		this.b=b1;
+		this.b=b2;
+	}
+	public void removeBall()
+	{
+		b=null;
+	}
+	public boolean isBagEmpty()
+	{
+		return b==null;
+	}
+	public String showGame()
+	{
+		if (b instanceof BB)
+		{
+				BB bb1=(BB)b;
+				return bb1.game;
+		}
+		else
+		{
+				Tennis t1=(Tennis)b;
+				return t1.game;
+		}	
+		
+	}
+}
+import java.util.Scanner;
+class UserInterface 
+{
+	static Scanner sc = new Scanner (System.in);
+	public static void main(String [] args)throws Exception
+	{
+		Bag b1 = new Bag();
+		boolean flag=true;
+		do
+		{
+			System.out.println("\n--------------------------Home Page-----------------------------");
+			System.out.println("\n1.Add Ball\n2.Remove Ball\n3.Check Bag is empty or not\n4.Show game that can be played\n5.Exit");
+			System.out.print("\nSelect the input: ");
+			int input=sc.nextInt();
+			Thread.sleep(1000);
+			switch (input)
+			{
+			case 1:
+			{
+				if (!(b1.isBagEmpty()))
+				{
+					System.out.println("\n\t\t\tInside the Bag, "+b1.showGame()+" is already present");
+					break;
+				}
+				System.out.println("\t\t\tChoose the Ball to add\n1.Basket Ball\n2.Tennis");
+				System.out.print("\nInput: ");
+				int ball=sc.nextInt();
+				Thread.sleep(1000);
+				if(ball != 1 && ball != 2)
+				{	
+					System.out.println("\n\t\t\tInvalid Ball Selection .Try again");
+					break;
+				}
+				
+				System.out.print("\nEnter the Radius of the Ball (in cm): ");
+				double rad=sc.nextDouble();
+				Thread.sleep(1000);
+				if (ball == 1)
+				{
+					b1.addBall(new Ball(rad),new BB());
+				}
+				else if (ball == 2)
+				{
+					b1.addBall(new Ball(rad),new Tennis());
+				}
+				System.out.println("\n\t\t\tBall added successful...");
+				break;
+			}
+			case 2:
+			{
+				if (b1.isBagEmpty())
+				{
+					System.out.println("\n\t\tThere is no ball to remove inside the bag.");
+					break;
+				}
+				System.out.println("\n\t\t\t"+b1.showGame()+" Removed Successful");
+				b1.removeBall();
+				break;
+			}
+			case 3:
+			{
+				String res = b1.isBagEmpty() ? "Yes.Bag is Empty" : "Inside the bag "+b1.showGame()+" is there.";
+				System.out.println("\t\t\t"+res);
+				break;
+			}
+			case 4: 
+			{
+				if (b1.isBagEmpty())
+				{
+					System.out.println("\n\t\tInside bag, There is no ball to play the game.");
+					break;
+				}
+				String res=b1.showGame();
+				System.out.println("\t\t\t You can play "+res+" game.");
+				break;
+			}
+			case 5:
+			{
+					flag=false;
+					break;
+			}
+			default:
+			{
+				System.out.println("\n\t\t\tInvalid Input.Try Again");	
+			}
+			}
+		}
+		while (flag);
+		System.out.println("\n\t\t\tThank You.....:)");
+	}
+}
